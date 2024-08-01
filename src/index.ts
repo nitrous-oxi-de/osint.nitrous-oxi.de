@@ -83,8 +83,8 @@ async function main(fastify: FastifyInstance) {
     fastify.register(helmet);
     fastify.register(cors);
 
-    rOSINT(fastify);
-    rAPI(fastify);
+    await rOSINT(fastify);
+    await rAPI(fastify);
 
     fastify.listen({port: PORT}, (err, address) => {
 
