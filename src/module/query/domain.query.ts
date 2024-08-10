@@ -1,3 +1,9 @@
+/*
+ * @file domain.query.ts
+ * @author David @dvhsh (https://dvh.sh)
+ * @updated Thu Aug 9 2024
+ * @description Domain query standardization bounding
+ */
 import IQueryStandardization from "@interface/iQueryStandardization";
 import { ModuleCategory }    from "@enum/eModuleCategory";
 
