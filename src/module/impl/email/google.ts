@@ -32,40 +32,60 @@ const SANDBOX: any = {
 
 }
 
-const temp : string = path.join(__dirname, "../../../../../", "temp");
-const creds : string = path.join(__dirname, 'creds.txt');
-
 export class Google extends Module {
 
     constructor() { super(META, SANDBOX); }
 
     public async query(query: string): Promise<any> {
+        const tempPath = path.join(__dirname, "temp");
+        const outputPath = path.join(tempPath, `${query}.json`);
 
-        let execQuery : string = `ghunt email ${query} --json ../../../../../temp/${query}.json`;
+        // Ensure temp directory exists
+        if (!fs.existsSync(tempPath)) {
+            fs.mkdirSync(tempPath, { recursive: true });
+        }
 
-        console.log(execQuery)
+        const execQuery: string = `ghunt email ${query} --json ${outputPath}`;
 
-        const result = await new Promise((resolve, reject) => {
-            exec(execQuery, (err, stdout, stderr) => {
-                if (err) { reject(err); }
-                resolve(stdout);
+        await new Promise<void>((resolve, reject) => {
+            exec(execQuery, (err) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve();
             });
         });
 
-        // open the json and read the contents to a variable
+        // Check if the JSON file exists
+        if (fs.existsSync(outputPath)) {
+            const data = JSON.parse(fs.readFileSync(outputPath, "utf8"));
+            fs.unlinkSync(outputPath); // Clean up after reading
 
-        let exists = fs.existsSync(`${temp}/${query}.json`);
-        let res = exists ? fs.readFileSync(`${temp}/${query}.json`, 'utf8') : null;
+            // Extracting relevant data
+            const { personId } = data.PROFILE_CONTAINER.profile;
+            const email = data.PROFILE_CONTAINER.profile.emails.PROFILE.value;
+            const lastUpdated = data.PROFILE_CONTAINER.profile.sourceIds.PROFILE.lastUpdated;
+            const profilePhotoUrl = data.PROFILE_CONTAINER.profile.profilePhotos.PROFILE.url;
+            const coverPhotoUrl = data.PROFILE_CONTAINER.profile.coverPhotos.PROFILE.url;
+            const mapsUrl = `https://www.google.com/maps/contrib/${personId}`
 
-        // delete the file after reading
-        if (exists) {
-            fs.unlinkSync(`${temp}/${query}.json`);
+            return {
+                status: 200,
+                data: {
+                    personId,
+                    email,
+                    lastUpdated,
+                    profilePhotoUrl,
+                    coverPhotoUrl,
+                    mapsUrl,
+                },
+            };
+        } else {
+            return {
+                status: 404,
+                data: null,
+            };
         }
-
-        return {
-            status : exists ? 200                        : 404,
-            data   : exists ? JSON.parse(<string>res) : null,
-        };
     }
 }
 

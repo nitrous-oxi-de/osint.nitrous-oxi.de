@@ -1,14 +1,35 @@
+# Nitrous Oxide OSINT API
 
-# api.nitrous-oxi.de
-
-Fastify [REST API](https://api.nitrous-oxi.de/) featured with an OSINT framework for basic reconnaissance.
-
+Welcome to the **Nitrous Oxide OSINT API**—a Fastify-based REST API designed for comprehensive Open Source Intelligence (OSINT) reconnaissance. This API offers a modular framework for conducting basic reconnaissance across various categories such as usernames, domains, emails, phone numbers, and IP addresses.
 
 ![GitHub License](https://img.shields.io/github/license/nitrous-oxi-de/api.nitrous-oxi.de)
+
+## Table of Contents
+
+- [Usage](#usage)
+    - [Categories](#categories)
+    - [Module Indexing](#module-indexing)
+    - [Individual Module Queries](#individual-module-queries)
+    - [Categorized Queries](#categorized-queries)
+    - [Response Schema](#response-schema)
+- [Contributing](#contributing)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Development](#development)
+    - [ModuleCategory Enum](#modulecategory-enum)
+    - [ModuleType Enum](#moduletype-enum)
+    - [ModuleMeta Interface](#modulemeta-interface)
+    - [Module Superclass](#module-superclass)
+    - [In Practice](#in-practice)
+    - [QueryStandardization Interface](#querystandardization-interface)
+- [Acknowledgements](#acknowledgements)
+- [License](#license)
 
 ## Usage
 
 ### Categories
+
+The API provides endpoints for different categories of reconnaissance:
 
 - [`/username`](https://api.nitrous-oxi.de/username)
 - [`/domain`](https://api.nitrous-oxi.de/domain)
@@ -18,24 +39,26 @@ Fastify [REST API](https://api.nitrous-oxi.de/) featured with an OSINT framework
 
 ### Module Indexing
 
-All modules can be indexed via the following endpoints:
+All available modules can be indexed using the following endpoints:
 
-- `https://api.nitrous-oxi.de/`
-- `https://api.nitrous-oxi.de/<category>/`
+- [Index All Modules](https://osint.nitrous-oxi.de/)
+- [Index by Category](https://osint.nitrous-oxi.de/<category>/)
 
 ### Individual Module Queries
 
-A single module can be queried via the following endpoint:
+You can query a specific module using:
 
-- `https://api.nitrous-oxi.de/<category>/<module>?query=`
+- [Query Module](https://osint.nitrous-oxi.de/<category>/<module>?query=)
 
 ### Categorized Queries
 
-All modules within a category can be queried via the following endpoints:
+To query all modules within a specific category, use the following:
 
-- `https://api.nitrous-oxi.de/<category>?query=`
+- [Query Category](https://osint.nitrous-oxi.de/<category>?query=)
 
 ### Response Schema
+
+The API returns responses in the following format:
 
 ```json
 { "status" : 200, "data" : {} }
@@ -43,38 +66,49 @@ All modules within a category can be queried via the following endpoints:
 { "status" : 500, "data" : null }
 ```
 
-
 ## Contributing
 
-Contributions are always welcome, espcially in the form of new modules! For major changes, please open an issue first
-to discuss what you would like to change.
+Contributions are always welcome, especially in the form of new modules! For major changes, please open an issue to discuss your proposal first.
 
-See `contributing.md` for ways to get started.
+See the `contributing.md` file for guidelines on how to get started.
 
-Please adhere to this project's `code of conduct`.
-
+Please adhere to the project's `code of conduct`.
 
 ## Requirements
 
+To run the project locally, you need the following:
+
 - Python 3.10
 - Node.js v20
+
 ## Installation
 
-Clone the repository then install dependencies via npm
+Follow these steps to set up the project locally:
 
 ```bash
+# Install TypeScript globally
 npm install typescript -G
-git clone https://github.com/NitrousSL/api.nitrous-oxi.de.git
-cd api.nitrous-oxi.de
+
+# Clone the repository
+git clone https://github.com/nitrous-oxi-de/osint.nitrous-oxi.de.git
+
+# Navigate into the project directory
+cd osint.nitrous-oxi.de
+
+# Install project dependencies
 npm install
+
+# Start the application
 npm run start
 ```
-    
+
+> **Note:** The email/google module requires [GHunt](https://github.com/mxrch/GHunt) to be installed and configured locally.
+
 ## Development
 
 ### ModuleCategory Enum
 
-Found in `src/sdk/enum/eModuleCategory.ts` aliased as `@enum/eModuleCategory`.
+Located in `src/sdk/enum/eModuleCategory.ts` and aliased as `@enum/eModuleCategory`.
 
 ```typescript
 export enum ModuleCategory {
@@ -86,11 +120,11 @@ export enum ModuleCategory {
 }
 ```
 
-Each module must be assigned a category, which describes its required input.
+Each module must be assigned a category that describes the required input.
 
 ### ModuleType Enum
 
-Found in `src/sdk/enum/eModuleType.ts` aliased as `@enum/eModuleType`.
+Located in `src/sdk/enum/eModuleType.ts` and aliased as `@enum/eModuleType`.
 
 ```typescript
 export enum ModuleType {
@@ -99,11 +133,11 @@ export enum ModuleType {
 }
 ```
 
-Each module must be assigned a type, which is used to describe the data returned.
+Each module must be assigned a type, which describes the nature of the data returned.
 
 ### ModuleMeta Interface
 
-Found in `src/sdk/interface/iModuleMeta.ts` aliased as `@interface/iModuleMeta`.
+Located in `src/sdk/interface/iModuleMeta.ts` and aliased as `@interface/iModuleMeta`.
 
 ```typescript
 export interface ModuleMeta {
@@ -115,20 +149,24 @@ export interface ModuleMeta {
 }
 ```
 
-Each module must be assigned metadata, which is used for indexing.
+Each module must include metadata, which is used for indexing.
 
 ### Module Superclass
 
-Found in `src/module/module.ts` aliased as `@module/module`.
+Located in `src/module/module.ts` and aliased as `@module/module`.
 
 ```typescript
 export class Module {
 
     public meta: ModuleMeta;
 
-    constructor(meta: ModuleMeta) { this.meta = meta; }
+    constructor(meta: ModuleMeta) {
+        this.meta = meta;
+    }
 
-    public async query(query: string): Promise<any> { throw new Error("Method not implemented."); }
+    public async query(query: string): Promise<any> {
+        throw new Error("Method not implemented.");
+    }
 }
 ```
 
@@ -136,46 +174,44 @@ Every module has a set metadata and must implement the `query` method, which ret
 
 ### In Practice
 
-Found in `src/module/impl/username/cashapp.ts`.
+Example module implementation found in `src/module/impl/username/cashapp.ts`.
 
 ```typescript
-// define our module's metadata
+// Define module metadata
 const META: ModuleMeta = {
     name        : "cashapp",
     description : "Searches for CashApp profile info based on a given username.",
-
     category    : ModuleCategory.Username,
     type        : ModuleType.Enrichment,
 }
 
-// create a new class extending our Module superclass
+// Create a new class extending the Module superclass
 export class CashApp extends Module {
 
-    // construct our class using our metadata
-    constructor() { super(META); }
+    constructor() {
+        super(META);
+    }
 
     public async query(query: string): Promise<any> {
 
         const response = await axios.get(`https://cash.app/$${query}`);
 
-        // determine if the query has returned a valid response
         const exists = response.data.includes('var profile =');
 
-        // parse the response and return data which is then sent to the client
         return {
-            status : exists ? 200                                                                : 404,
-            data   : exists ? JSON.parse(response.data.split('var profile = ')[1].split(';')[0]) : null,
-        }
+            status: exists ? 200 : 404,
+            data: exists ? JSON.parse(response.data.split('var profile = ')[1].split(';')[0]) : null,
+        };
     }
 }
 
-// export a new instance of our module's class
-module.exports = new CashApp;
+// Export an instance of the module class
+module.exports = new CashApp();
 ```
 
 ### QueryStandardization Interface
 
-Found in `src/sdk/interface/iQueryStandardization.ts` aliased as `@interface/iQueryStandardization`.
+Located in `src/sdk/interface/iQueryStandardization.ts` and aliased as `@interface/iQueryStandardization`.
 
 ```typescript
 export default interface IQueryStandardization {
@@ -189,43 +225,36 @@ export default interface IQueryStandardization {
 }
 ```
 
-Provides category-specific query standardization to catch some common mistakes.
+Provides category-specific query standardization to catch common mistakes.
 
 #### Example
 
-Found in `src/module/query/domain.query.ts`.
+Located in `src/module/query/domain.query.ts`.
 
 ```typescript
-// create a new class implementing our interface
 export default class DomainQuery implements IQueryStandardization {
 
-    // define our category
-    readonly category    : ModuleCategory = ModuleCategory.Domain;
-
-    // define our query standardization
-    readonly minLength   : number = 3;
-    readonly maxLength   : number = 255;
-
-    // optionally define a regex to match against
-    readonly regex     ? : RegExp = /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/;
+    readonly category: ModuleCategory = ModuleCategory.Domain;
+    readonly minLength: number = 3;
+    readonly maxLength: number = 255;
+    readonly regex?: RegExp = /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/;
 }
 
-// export a new instance of our class
-module.exports = new DomainQuery;
+module.exports = new DomainQuery();
 ```
 
-The router will automatically standardize the query before passing it to the module and will return a 400 if the query does not meet the standardization requirements.
+The router will automatically standardize the query before passing it to the module, returning a 400 if the query does not meet the requirements.
 
-See the `doesQueryConform()` method and its usages in `src/route/osintRoute.ts` for more information.
+Refer to the `doesQueryConform()` method in `src/route/osintRoute.ts` for more details.
+
 ## Acknowledgements
 
- - [GHunt](https://github.com/mxrch/GHunt)
+- [GHunt](https://github.com/mxrch/GHunt) - A key dependency for email module functionality.
 
-
-## Repository Stats
-
-![Alt](https://repobeats.axiom.co/api/embed/a71a1d11f2b51d2c389794c83f5153c18da80f24.svg "Repobeats analytics image")
 ## License
 
-[GPL-3.0](https://choosealicense.com/licenses/gpl-3.0/)
+This project is licensed under the GPL-3.0 License - see the [LICENSE](https://choosealicense.com/licenses/gpl-3.0/) file for details.
 
+![Repobeats Analytics](https://repobeats.axiom.co/api/embed/a71a1d11f2b51d2c389794c83f5153c18da80f24.svg "Repobeats analytics image")
+
+---
