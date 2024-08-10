@@ -1,3 +1,9 @@
+/*
+ * @file module.ts
+ * @author David @dvhsh (https://dvh.sh)
+ * @updated Thu Aug 9 2024
+ * @description Superclass for all modules.
+ */
 import { ModuleCategory } from "@enum/eModuleCategory";
 import { ModuleMeta }     from "@interface/iModuleMeta";
 

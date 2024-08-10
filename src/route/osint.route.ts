@@ -1,3 +1,9 @@
+/*
+ * @file osint.route.ts
+ * @author David @dvhsh (https://dvh.sh)
+ * @updated Thu Aug 9 2024
+ * @description OSINT routing
+ */
 import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
 
 import IQueryStandardization                             from "@interface/iQueryStandardization";
@@ -40,11 +46,11 @@ const doesQueryConform = (query: string, category: string): boolean => {
 }
 
 /*
-    * @function rOSINT
+    * @function osintRoute
     * @param { FastifyInstance } fastify
     * @description Registers OSINT endpoints
 */
-async function rOSINT(fastify: FastifyInstance) {
+async function osintRoute(fastify: FastifyInstance) {
 
     // map out module classes
     const modules: Module[] = getModules();
@@ -132,6 +138,6 @@ async function rOSINT(fastify: FastifyInstance) {
     }
 }
 
-export default rOSINT;
+export default osintRoute;
 
-// Path: src/route/rOSINT.ts
+// Path: src/route/osint.route.ts

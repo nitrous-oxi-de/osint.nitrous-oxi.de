@@ -1,7 +1,13 @@
+/*
+ * @file phone.query.ts
+ * @author David @dvhsh (https://dvh.sh)
+ * @updated Thu Aug 9 2024
+ * @description Phone query standardization bounding
+ */
 import IQueryStandardization from "@interface/iQueryStandardization";
 import { ModuleCategory }    from "@enum/eModuleCategory";
 
-export default class QPhone implements IQueryStandardization {
+export default class PhoneQuery implements IQueryStandardization {
 
     readonly category    : ModuleCategory = ModuleCategory.Phone;
 
@@ -12,6 +18,6 @@ export default class QPhone implements IQueryStandardization {
     readonly regex     ? : RegExp = /^\+?[0-9]{1,3}[0-9]{3}[0-9]{3}[0-9]{4}$/;
 }
 
-module.exports = new QPhone;
+module.exports = new PhoneQuery;
 
-// Path: src/module/query/qPhone.ts
+// Path: src/module/query/phone.query.ts

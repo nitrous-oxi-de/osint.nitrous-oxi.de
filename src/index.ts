@@ -1,3 +1,9 @@
+/*
+ * @file index.ts
+ * @author David @dvhsh (https://dvh.sh)
+ * @updated Thu Aug 9 2024
+ * @description Main entry point for the application
+ */
 import "dotenv/config";
 
 import { APIEnvironment }           from "@enum/eAPIEnvironment";
@@ -8,8 +14,6 @@ import rateLimit                    from "@fastify/rate-limit";
 import compress                     from "@fastify/compress";
 import helmet                       from "@fastify/helmet";
 import cors                         from "@fastify/cors";
-
-import mongoose                     from "mongoose";
 
 /////////////////////////////////////////////////////////////
 //
@@ -27,8 +31,8 @@ const app  : FastifyInstance   = fastify({ logger: false });
 //
 /////////////////////////////////////////////////////////////
 
-import rOSINT     from '@route/rOSINT';
-import rAPI       from '@route/rAPI';
+import osintRoute     from '@route/osint.route';
+import apiRoute       from '@route/api.route';
 
 /////////////////////////////////////////////////////////////
 //
@@ -37,7 +41,6 @@ import rAPI       from '@route/rAPI';
 /////////////////////////////////////////////////////////////
 
 const API_ENVIRONMENT : string = process.env.API_ENVIRONMENT as string;
-const MONGO_URI       : string = process.env.MONGO_URI       as string;
 
 // requests per minute
 const handleRateLimit = (env: string) => {
@@ -55,10 +58,6 @@ const environmentCheck = () => {
     if (!API_ENVIRONMENT)
         { throw new Error("API_ENVIRONMENT is not defined"); }
 
-    // no mongo uri defined
-    if (!MONGO_URI)
-        { throw new Error("MONGO_URI is not defined"); }
-
     // invalid environment defined
     if (!Object.values(APIEnvironment).includes(API_ENVIRONMENT as APIEnvironment))
         { throw new Error("API_ENVIRONMENT is not a valid environment"); }
@@ -75,16 +74,12 @@ async function main(fastify: FastifyInstance) {
         timeWindow: '1 minute'
     });
 
-    if (API_ENVIRONMENT === APIEnvironment.Production) {
-        await mongoose.connect(MONGO_URI);
-    }
-
     fastify.register(compress);
     fastify.register(helmet);
     fastify.register(cors);
 
-    await rOSINT(fastify);
-    await rAPI(fastify);
+    await osintRoute(fastify);
+    await apiRoute(fastify);
 
     fastify.listen({port: PORT}, (err, address) => {
 

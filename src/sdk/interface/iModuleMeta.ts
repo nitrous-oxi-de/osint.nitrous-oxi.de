@@ -1,3 +1,9 @@
+/*
+ * @file iModuleMeta.ts
+ * @author David @dvhsh (https://dvh.sh)
+ * @updated Thu Aug 9 2024
+ * @description Interface for module metadata
+ */
 import { ModuleCategory } from "@enum/eModuleCategory";
 import { ModuleType }     from "@enum/eModuleType";
 

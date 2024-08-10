@@ -193,11 +193,11 @@ Provides category-specific query standardization to catch some common mistakes.
 
 #### Example
 
-Found in `src/module/query/qDomain.ts`.
+Found in `src/module/query/domain.query.ts`.
 
 ```typescript
 // create a new class implementing our interface
-export default class QDomain implements IQueryStandardization {
+export default class DomainQuery implements IQueryStandardization {
 
     // define our category
     readonly category    : ModuleCategory = ModuleCategory.Domain;
@@ -211,12 +211,12 @@ export default class QDomain implements IQueryStandardization {
 }
 
 // export a new instance of our class
-module.exports = new QDomain;
+module.exports = new DomainQuery;
 ```
 
 The router will automatically standardize the query before passing it to the module and will return a 400 if the query does not meet the standardization requirements.
 
-See the `doesQueryConform()` method and its usages in `src/route/rOSINT.ts` for more information.
+See the `doesQueryConform()` method and its usages in `src/route/osintRoute.ts` for more information.
 ## Acknowledgements
 
  - [GHunt](https://github.com/mxrch/GHunt)

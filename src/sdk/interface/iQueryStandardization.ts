@@ -1,3 +1,9 @@
+/*
+ * @file iQueryStandardization.ts
+ * @author David @dvhsh (https://dvh.sh)
+ * @updated Thu Aug 9 2024
+ * @description Interface for query standardization/validation
+ */
 import { ModuleCategory } from "@enum/eModuleCategory";
 
 export default interface IQueryStandardization {
@@ -10,4 +16,4 @@ export default interface IQueryStandardization {
     readonly regex     ? : RegExp;
 }
 
-// Path: src/module/query/qEmail.ts
+// Path: src/module/query/email.query.ts

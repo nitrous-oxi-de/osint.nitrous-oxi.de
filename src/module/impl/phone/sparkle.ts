@@ -1,3 +1,9 @@
+/*
+ * @file sparkle.ts
+ * @author David @dvhsh (https://dvh.sh)
+ * @updated Thu Aug 9 2024
+ * @description Sparkle phone module
+ */
 import { ModuleCategory } from "@enum/eModuleCategory";
 import { ModuleType }     from "@enum/eModuleType";
 

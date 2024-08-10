@@ -7,7 +7,7 @@
 import IQueryStandardization from "@interface/iQueryStandardization";
 import { ModuleCategory }    from "@enum/eModuleCategory";
 
-export default class QEmail implements IQueryStandardization {
+export default class EmailQuery implements IQueryStandardization {
 
     readonly category    : ModuleCategory = ModuleCategory.Email;
 
@@ -18,6 +18,6 @@ export default class QEmail implements IQueryStandardization {
     readonly regex     ? : RegExp = /^.+@.+\..+$/
 }
 
-module.exports = new QEmail;
+module.exports = new EmailQuery;
 
-// Path: src/module/query/qEmail.ts
+// Path: src/module/query/email.query.ts

@@ -7,7 +7,7 @@
 import IQueryStandardization from "@interface/iQueryStandardization";
 import { ModuleCategory }    from "@enum/eModuleCategory";
 
-export default class QDomain implements IQueryStandardization {
+export default class DomainQuery implements IQueryStandardization {
 
     readonly category    : ModuleCategory = ModuleCategory.Domain;
 
@@ -17,6 +17,6 @@ export default class QDomain implements IQueryStandardization {
     readonly regex     ? : RegExp = /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/;
 }
 
-module.exports = new QDomain;
+module.exports = new DomainQuery;
 
-// Path: src/module/query/qDomain.ts
+// Path: src/module/query/domain.query.ts

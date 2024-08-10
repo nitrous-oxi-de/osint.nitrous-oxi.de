@@ -1,3 +1,9 @@
+/*
+ * @file google.ts
+ * @author David @dvhsh (https://dvh.sh)
+ * @updated Thu Aug 9 2024
+ * @description Google email module
+ */
 import { ModuleCategory } from "@enum/eModuleCategory";
 import { ModuleType }     from "@enum/eModuleType";
 
