@@ -31,30 +31,30 @@ Welcome to the **Nitrous Oxide OSINT API**—a Fastify-based REST API designed f
 
 The API provides endpoints for different categories of reconnaissance:
 
-- [`/username`](https://api.nitrous-oxi.de/username)
-- [`/domain`](https://api.nitrous-oxi.de/domain)
-- [`/email`](https://api.nitrous-oxi.de/email)
-- [`/phone`](https://api.nitrous-oxi.de/phone)
-- [`/ip`](https://api.nitrous-oxi.de/ip)
+- [`/username`](https://osint.nitrous-oxi.de/username)
+- [`/domain`](https://osint.nitrous-oxi.de/domain)
+- [`/email`](https://osint.nitrous-oxi.de/email)
+- [`/phone`](https://osint.nitrous-oxi.de/phone)
+- [`/ip`](https://osint.nitrous-oxi.de/ip)
 
 ### Module Indexing
 
 All available modules can be indexed using the following endpoints:
 
-- [Index All Modules](https://osint.nitrous-oxi.de/)
-- [Index by Category](https://osint.nitrous-oxi.de/<category>/)
+- Index All Modules - `https://osint.nitrous-oxi.de/`
+- Index by Category - `https://osint.nitrous-oxi.de/<category>/`
 
 ### Individual Module Queries
 
 You can query a specific module using:
 
-- [Query Module](https://osint.nitrous-oxi.de/<category>/<module>?query=)
+- `https://osint.nitrous-oxi.de/<category>/<module>?query=`
 
 ### Categorized Queries
 
 To query all modules within a specific category, use the following:
 
-- [Query Category](https://osint.nitrous-oxi.de/<category>?query=)
+- `https://osint.nitrous-oxi.de/<category>?query=`
 
 ### Response Schema
 
