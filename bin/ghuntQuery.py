@@ -40,14 +40,18 @@ async def main():
 
     if found:
 
+        if "PROFILE" in person.names:
+            print(f"Found {person.names['PROFILE']['fullname']}")
+
         info = {
-            'id': response['personId'],
-            'last_updated': response['sourceIds']['PROFILE']['lastUpdated'],
-            'maps_url': 'https://www.google.com/maps/contrib/' + response['personId'],
-            'pfp_url': response['profilePhotos']['PROFILE']['url'],
-            'cover_url': response['coverPhotos']['PROFILE']['url'],
-            'name': response['names']['PROFILE']['fullname'],
-            'emails': response['emails']['PROFILE']
+            # 'id': response['personId'],
+           #  'last_updated': response['sourceIds']['PROFILE']['lastUpdated'],
+            # 'maps_url': 'https://www.google.com/maps/contrib/' + response['personId'],
+           #  'pfp_url': response['profilePhotos']['PROFILE']['url'],
+           #  'cover_url': response['coverPhotos']['PROFILE']['url'],
+           #  'name': response['names']['PROFILE']['fullname'],
+           #  'emails': response['emails']['PROFILE']
+           "a":"b"
         }
 
         print(json.dumps(info, indent=4))
