@@ -12,7 +12,9 @@ import { ModuleMeta }     from "@interface/iModuleMeta";
 import { Module }         from "@module/module";
 
 import { exec }           from "child_process";
+
 import path               from "path";
+import fs                 from "fs";
 
 const META: ModuleMeta = {
     name        : "google",
@@ -30,8 +32,7 @@ const SANDBOX: any = {
 
 }
 
-// root/dist/src/module/impl/email/google.js => root/bin/ghuntQuery.py
-const ghunt : string = path.join(__dirname, "../../../../../", "bin", "ghuntQuery.py");
+const temp : string = path.join(__dirname, "../../../../../", "temp");
 const creds : string = path.join(__dirname, 'creds.txt');
 
 export class Google extends Module {
@@ -40,10 +41,9 @@ export class Google extends Module {
 
     public async query(query: string): Promise<any> {
 
-        let execQuery : string = `python3.10 ${ghunt} ${query} `;
+        let execQuery : string = `ghunt email ${query} --json ../../../../../temp/${query}.json`;
 
-        // only append creds if they are not found to prevent potential leaks
-        if (!creds) { execQuery += process.env.GHUNT_CREDS; }
+        console.log(execQuery)
 
         const result = await new Promise((resolve, reject) => {
             exec(execQuery, (err, stdout, stderr) => {
@@ -52,13 +52,19 @@ export class Google extends Module {
             });
         });
 
-        const parsed = JSON.parse(<string>result);
+        // open the json and read the contents to a variable
 
-        const exists = parsed.toString() !== 'false';
+        let exists = fs.existsSync(`${temp}/${query}.json`);
+        let res = exists ? fs.readFileSync(`${temp}/${query}.json`, 'utf8') : null;
+
+        // delete the file after reading
+        if (exists) {
+            fs.unlinkSync(`${temp}/${query}.json`);
+        }
 
         return {
             status : exists ? 200                        : 404,
-            data   : exists ? JSON.parse(<string>result) : null,
+            data   : exists ? JSON.parse(<string>res) : null,
         };
     }
 }
