@@ -78,7 +78,7 @@ Please adhere to the project's `code of conduct`.
 
 To run the project locally, you need the following:
 
-- Python 3.10
+- Python v3.10
 - Node.js v20
 
 ## Installation
@@ -94,6 +94,9 @@ git clone https://github.com/nitrous-oxi-de/osint.nitrous-oxi.de.git
 
 # Navigate into the project directory
 cd osint.nitrous-oxi.de
+
+# Setup the environment variables
+cp .env.example .env
 
 # Install project dependencies
 npm install
@@ -249,7 +252,7 @@ Refer to the `doesQueryConform()` method in `src/route/osintRoute.ts` for more d
 
 ## Acknowledgements
 
-- [GHunt](https://github.com/mxrch/GHunt) - A key dependency for email module functionality.
+- [GHunt](https://github.com/mxrch/GHunt) - A key dependency for email/google module functionality.
 
 ## License
 

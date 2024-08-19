@@ -1,0 +1,203 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Nitrous Oxide OSINT API",
+    "description": "A Fastify-based REST API designed for comprehensive Open Source Intelligence (OSINT) reconnaissance",
+    "version": "1.0.1",
+    "license": {
+      "name": "GPL-3.0",
+      "url": "https://choosealicense.com/licenses/gpl-3.0/"
+    },
+    "contact": {
+      "email": "hello@nitrous-oxi.de"
+    },
+    "termsOfService": "https://nitrous-oxi.de/terms"
+  },
+  "servers": [
+    {
+      "url": "https://osint.nitrous-oxi.de",
+      "description": "Production server",
+      "x-rateLimit": "60 requests per minute"
+    },
+    {
+      "url": "https://sandbox.nitrous-oxi.de",
+      "description": "Sandbox server for testing",
+      "x-rateLimit": "100 requests per minute"
+    }
+  ],
+  "paths": {
+    "/{category}": {
+      "get": {
+        "summary": "Get all modules within a category",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "category",
+            "schema": {
+              "type": "string",
+              "enum": ["username", "domain", "email", "phone", "ip"]
+            },
+            "required": true,
+            "description": "The category of OSINT to query."
+          },
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The query string to search within the specified category."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response containing the results from all modules in the category.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid query."
+          },
+          "404": {
+            "description": "Account not found."
+          },
+          "500": {
+            "description": "Module failure."
+          }
+        }
+      }
+    },
+    "/{category}/{module}": {
+      "get": {
+        "summary": "Query a specific module within a category",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "category",
+            "schema": {
+              "type": "string",
+              "enum": ["username", "domain", "email", "phone", "ip"]
+            },
+            "required": true,
+            "description": "The category of OSINT."
+          },
+          {
+            "in": "path",
+            "name": "module",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The specific module to query within the category."
+          },
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The query string for the specific module."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response containing the result from the specified module.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid query."
+          },
+          "404": {
+            "description": "Account not found."
+          },
+          "500": {
+            "description": "Module failure."
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Get all available modules",
+        "responses": {
+          "200": {
+            "description": "A successful response containing a list of all available modules.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ModuleMeta"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ModuleMeta": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "cashapp"
+          },
+          "description": {
+            "type": "string",
+            "example": "Searches for CashApp profile info based on a given username."
+          },
+          "category": {
+            "type": "string",
+            "enum": ["username", "domain", "email", "phone", "ip"]
+          },
+          "type": {
+            "type": "string",
+            "enum": ["enrichment", "existence"]
+          }
+        }
+      },
+      "StandardResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 200
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    }
+  }
+}
